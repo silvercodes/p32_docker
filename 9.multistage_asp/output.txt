@@ -1,0 +1,16 @@
+dotnet watch ⌚ Polling file watcher is enabled
+dotnet watch 🔥 Hot reload enabled. For a list of supported edits, see https://aka.ms/dotnet/hot-reload.
+dotnet watch 💡 Press Ctrl+R to restart.
+dotnet watch 🔨 Building /app/9.multistage_asp.csproj ...
+dotnet watch 🔨 Build succeeded: /app/9.multistage_asp.csproj
+Using launch settings from /app/Properties/launchSettings.json...
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://0.0.0.0:80
+dotnet watch ❌ Failed to launch 'http://0.0.0.0:80' with arguments '': An error occurred trying to start process 'http://0.0.0.0:80' with working directory '/app'. No such file or directory
+dotnet watch ⚠ Unable to launch the browser. Url 'http://0.0.0.0:80'.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /app
