@@ -1,0 +1,105 @@
+version: '3.8'
+
+# services:
+#     app:
+#         #......
+#     db:
+#         #.....
+
+# networks:
+#     my-net:
+#         #.....
+
+# volumes:
+#     db_data:
+#         #.....
+
+# configs:
+#     config-name:
+#         #.....
+
+# secrets:
+#     db_password:
+#         file: ./secrets/db_password.txt
+
+##################################################################
+
+services:
+    web:
+        #image: nginx:latest
+        # OR
+        image: app_img:1.0.12
+        build:
+            context: ./app
+            dockerfile: Dockerfile.prod
+            args:
+                NODE_VERSION: 20.0
+            labels:
+                - com.host.description=My application
+            network: host
+        container_name: php_api_app
+        working_dir: /app
+        ports:
+            - "80:80"
+            - "443:443/tcp"
+            - "9000"                # Случайный порт хоста
+            - "8080-8090:3000-3010"
+        expose:
+            - "3000"
+            - "8000"
+        environment:
+            MYSQL_ROOT_PASSWORD: rootpassword
+            MYSQL_USER: appuser
+            MYSQL_PASSWORD: userpassword
+            # - DEBUG=1                         # Как вариант синтаксиса
+        env_file:
+            - .env
+            - ./config/database.env
+        volumes:
+            - db_data:/var/lib/mysql            # Named volume
+            - logs:/var/logs/app                # Named volume
+            - ./data:/app/data                  # Bind mounts
+            - /tmp                              # Anonymous molume
+            - ./config:/etc/config:ro           # READ ONLY !!!
+            - data_volume:/app/data:rw          # READ/WRITE !!!
+        depends_on:
+            - database
+        command: ["npm", "start"]
+        entrypoint: /docker-entrypoint.sh
+        restart: always
+
+    database:
+        image: mysql:8.0
+        ######
+
+volumes:
+    db_data:
+        driver: local
+        driver_opts:
+            type: ext4
+            device: /mnt/ssd/docker_data
+    nfs_data:
+        driver: local
+        driver_opts:
+            type: nfs
+            o: addr=192.168.12.100,rw
+            device: ":/exports/data"
+
+networks:
+    frontend:
+        driver: bridge
+    backend:
+        driver: bridge
+        ipam:
+            config:
+                - subnet: 172.16.238.0/24
+                - gateway: 172.16.238.1
+
+
+
+
+
+
+
+
+
