@@ -9,7 +9,8 @@ services:
         networks:
             - frontend-network
             - backend-network
-        # volumes:
+        volumes:
+            - nodejs-files:/var/www/files:ro
 
     nodejs-api:
         build: ./nodejs-api

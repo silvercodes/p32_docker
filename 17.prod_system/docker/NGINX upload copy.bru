@@ -1,0 +1,20 @@
+meta {
+  name: NGINX upload copy
+  type: http
+  seq: 6
+}
+
+post {
+  url: http://localhost:80/api/upload
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  file: @file(C:\Users\ThinkPad\Desktop\STEP\pic\fabio-jock-xbrkcLR_WFU-unsplash.jpg)
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

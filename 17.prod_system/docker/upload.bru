@@ -1,0 +1,20 @@
+meta {
+  name: upload
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3000/upload
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  file: @file(C:\Users\ThinkPad\Desktop\STEP\pic\fabio-jock-t5COiVo2CA4-unsplash.jpg)
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
