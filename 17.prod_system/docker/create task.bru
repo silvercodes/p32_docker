@@ -1,0 +1,23 @@
+meta {
+  name: create task
+  type: http
+  seq: 8
+}
+
+post {
+  url: http://localhost:80/php/tasks
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "it works",
+    "description": "ho ho ho"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

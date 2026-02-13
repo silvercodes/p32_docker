@@ -50,9 +50,40 @@ services:
             timeout: 5s
             retries: 5
 
+    php-fpm:
+        build: ./php-app
+        image: php_app_img
+        restart: unless-stopped
+        networks:
+            - backend-network
+        depends_on:
+            - postgres-db
+        volumes:
+            - ./php-app:/var/www/html
+        environment:
+            POSTGRES_HOST: postgres-db
+            POSTGRES_USER: root
+            POSTGRES_PASSWORD: rootpassword
+            POSTGRES_DB: php_app
+
+    postgres-db:
+        image: postgres:15
+        restart: unless-stopped
+        networks:
+            - backend-network
+        volumes:
+            - postges_data:/var/lib/postgresql/data
+            - ./db-scripts/init-postgres.sql:/docker-entrypoint-initdb.d/init-postgres.sql
+        environment:
+            POSTGRES_USER: root
+            POSTGRES_PASSWORD: rootpassword
+            POSTGRES_DB: php_app
+
+
 volumes:
     mysql_data:
     nodejs-files:
+    postges_data:
 
 networks:
     frontend-network:
