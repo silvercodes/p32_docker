@@ -24,6 +24,26 @@ $method = $_SERVER['REQUEST_METHOD'];
 $path = trim($_SERVER['PATH_INFO'] ?? '', '/');
 
 switch ($method) {
+    case 'GET':
+        if ($path === 'tasks') {
+            $stmt = $pdo->query('SELECT * FROM tasks ORDER BY created_at DESC');
+            $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            echo json_encode($tasks);
+        } else if (preg_match('#^tasks/(\d+)$#', $path, $matches)) {
+            $id = $matches[1];
+            $stmt = $pdo->prepare('SELECT * FROM tasks WHERE id = ?');
+            $stmt->execute([$id]);
+            $task = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($task) {
+                echo json_encode($task);
+            } else {
+                http_response_code(404);
+                echo json_encode(['error' => 'Task not found']);
+            }
+        }
+
+    break;
     case 'POST':
         if ($path === 'tasks') {
             $input = json_decode(file_get_contents('php://input'), true);
@@ -43,6 +63,15 @@ switch ($method) {
 
             http_response_code(201);
             echo json_encode(['message' => 'Task created', 'id' => $taskId]);
+        }
+    break;
+    case 'DELETE':
+        if (preg_match('#^tasks/(\d+)$#', $path, $matches)) {
+            $id = $matches[1];
+            $stmt = $pdo->prepare('DELETE FROM tasks WHERE id = ?');
+            $stmt->execute([$id]);
+            
+            echo json_encode(['message' => 'Task deleted']);
         }
     break;
     default:

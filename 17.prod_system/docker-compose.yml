@@ -79,7 +79,6 @@ services:
             POSTGRES_PASSWORD: rootpassword
             POSTGRES_DB: php_app
 
-
 volumes:
     mysql_data:
     nodejs-files:

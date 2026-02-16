@@ -1,15 +1,16 @@
 meta {
-  name: test php
+  name: get all tasks
   type: http
-  seq: 9
+  seq: 2
 }
 
 get {
-  url: http://localhost:80/php
+  url: http://localhost:80/php/tasks
   body: none
   auth: inherit
 }
 
 settings {
   encodeUrl: true
+  timeout: 0
 }
