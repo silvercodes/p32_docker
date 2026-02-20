@@ -1,0 +1,11 @@
+{
+  "name": "secure-nodejs-app",
+  "version": "1.0.0",
+  "description": "Безопасное Node.js приложение с правильными правами",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "MIT"
+}
